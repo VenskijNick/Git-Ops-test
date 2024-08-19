@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REGISTRY_URL = "192.168.64.19:5000"  // URL вашего Docker Registry без протокола
-        REGISTRY_CREDENTIALS_ID = "a2a0be2f-8d7a-4005-a7e6-8d36f669323c"  // Идентификатор сохраненных учетных данных в Jenkins
+        // Идентификатор сохраненных учетных данных в Jenkins
         IMAGE_NAME = "myapp"  // Имя образа
         IMAGE_TAG = "latest"  // Тег образа
     }
