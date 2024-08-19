@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        REGISTRY_URL = "http://192.168.64.19:5000"
-        REGISTRY_CREDENTIALS_ID = "your-credentials-id"
-        IMAGE_NAME = "myapp"
-        IMAGE_TAG = "latest"
-        DOCKER_IMAGE = "${REGISTRY_URL}/${IMAGE_NAME}:${IMAGE_TAG}"
+        REGISTRY_URL = "192.168.64.19:5000"  // URL вашего Docker Registry без протокола
+        REGISTRY_CREDENTIALS_ID = "your-credentials-id"  // Идентификатор сохраненных учетных данных в Jenkins
+        IMAGE_NAME = "myapp"  // Имя образа
+        IMAGE_TAG = "latest"  // Тег образа
+        DOCKER_IMAGE = "${REGISTRY_URL}/${IMAGE_NAME}:${IMAGE_TAG}"  // Полное имя образа
     }
 
     stages {
@@ -19,8 +19,8 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                // Собираем Docker образ
                 script {
+                    // Собираем Docker образ
                     docker.build("${DOCKER_IMAGE}")
                 }
             }
@@ -28,9 +28,9 @@ pipeline {
         
         stage('Push Docker Image') {
             steps {
-                // Логинимся в Docker Registry и пушим образ
                 script {
-                    docker.withRegistry("${REGISTRY_URL}", "${REGISTRY_CREDENTIALS_ID}") {
+                    // Логинимся в Docker Registry и пушим образ
+                    docker.withRegistry("http://${REGISTRY_URL}", "${REGISTRY_CREDENTIALS_ID}") {
                         docker.image("${DOCKER_IMAGE}").push()
                     }
                 }
