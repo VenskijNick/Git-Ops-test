@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Клонируем репозиторий
-                git branch: 'master', url: 'https://github.com/your-repository-url.git'
+                git branch: 'master', url: 'https://github.com/VenskijNick/git-ops-test.git'
             }
         }
         
