@@ -2,7 +2,11 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "yourdockerhubusername/yourimagename:${env.BUILD_ID}"
+        REGISTRY_URL = "http://192.168.64.19:5000"
+        REGISTRY_CREDENTIALS_ID = "your-credentials-id"
+        IMAGE_NAME = "myapp"
+        IMAGE_TAG = "latest"
+        DOCKER_IMAGE = "${REGISTRY_URL}/${IMAGE_NAME}:${IMAGE_TAG}"
     }
 
     stages {
@@ -24,9 +28,9 @@ pipeline {
         
         stage('Push Docker Image') {
             steps {
-                // Логинимся в DockerHub и пушим образ
+                // Логинимся в Docker Registry и пушим образ
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    docker.withRegistry("${REGISTRY_URL}", "${REGISTRY_CREDENTIALS_ID}") {
                         docker.image("${DOCKER_IMAGE}").push()
                     }
                 }
